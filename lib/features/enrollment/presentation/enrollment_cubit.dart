@@ -1,26 +1,24 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sprova/core/config/app_config.dart';
 import 'package:sprova/features/enrollment/domain/entities/enrollment.dart';
 import 'package:sprova/features/enrollment/domain/repositories/enrollment_repository_interface.dart';
 import 'package:sprova/features/enrollment/data/repositories/enrollment_repository.dart';
 import 'package:sprova/features/enrollment/presentation/enrollment_state.dart';
-
-class EnrollmentCubit extends Cubit {
+class EnrollmentCubit extends ValueNotifier<EnrollmentState> {
   final EnrollmentRepository _repository;
 
   EnrollmentCubit(this._repository) : super(const EnrollmentInitial());
 
   TrackType? get currentTrack {
-    final s = state;
-    if (s is EnrollmentInitial) return s.selectedTrack;
-    if (s is EnrollmentPaymentProcessing) return s.track;
+    final state = value;
+    if (state is EnrollmentInitial) return state.selectedTrack;
+    if (state is EnrollmentPaymentProcessing) return state.track;
     return null;
   }
 
   void selectTrack(TrackType track) {
-    emit(EnrollmentInitial(selectedTrack: track));
+    value = EnrollmentInitial(selectedTrack: track);
   }
 
   Future<void> startEnrollment() async {
@@ -30,7 +28,7 @@ class EnrollmentCubit extends Cubit {
     final sessionEmail =
         Supabase.instance.client.auth.currentSession?.user.email ?? '';
 
-    emit(const EnrollmentLoading());
+    value = const EnrollmentLoading();
 
     final orderResult = await _repository.createOrder(
       track: track,
@@ -38,9 +36,9 @@ class EnrollmentCubit extends Cubit {
     );
 
     orderResult.fold(
-      (failure) => emit(EnrollmentError(failure)),
+      (failure) => value = EnrollmentError(failure),
       (orderId) {
-        emit(EnrollmentPaymentProcessing(orderId, track));
+        value = EnrollmentPaymentProcessing(orderId, track);
         _repository.openRazorpayCheckout(
           orderId: orderId,
           track: track,
@@ -63,14 +61,14 @@ class EnrollmentCubit extends Cubit {
     );
 
     result.fold(
-      (failure) => emit(EnrollmentError(failure)),
-      (enrollment) => emit(EnrollmentSuccess(enrollment)),
+      (failure) => value = EnrollmentError(failure),
+      (enrollment) => value = EnrollmentSuccess(enrollment),
     );
   }
 
   void onPaymentError(String message) {
-    emit(EnrollmentError(
-        EnrollmentFailure(message: message, code: 'PAYMENT_FAILED')));
+    value = EnrollmentError(
+        EnrollmentFailure(message: message, code: 'PAYMENT_FAILED'));
   }
 
   void onExternalWallet(String walletName) {
@@ -78,6 +76,6 @@ class EnrollmentCubit extends Cubit {
   }
 
   void reset() {
-    emit(const EnrollmentInitial());
+    value = const EnrollmentInitial();
   }
 }
