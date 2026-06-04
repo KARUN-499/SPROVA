@@ -1,0 +1,8 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "typescript.validate.enable": false,
+  "files.exclude": {
+    "**/supabase/functions/**/*.ts": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter:*)",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "Bash(ls -la .env*)",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "Bash(tee flutter_run.log)",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "PowerShell(Get-NetTCPConnection *)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "stitch",
+    "filesystem",
+    "github",
+    "git",
+    "context7",
+    "postgres",
+    "sqlite",
+    "fetch",
+    "memory",
+    "sequential-thinking",
+    "brave-search",
+    "puppeteer"
+  ]
+}
