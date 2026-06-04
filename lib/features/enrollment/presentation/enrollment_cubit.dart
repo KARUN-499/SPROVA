@@ -7,15 +7,15 @@ import 'package:sprova/features/enrollment/domain/repositories/enrollment_reposi
 import 'package:sprova/features/enrollment/data/repositories/enrollment_repository.dart';
 import 'package:sprova/features/enrollment/presentation/enrollment_state.dart';
 
-class EnrollmentCubit extends Cubit<EnrollmentState> {
+class EnrollmentCubit extends Cubit {
   final EnrollmentRepository _repository;
 
   EnrollmentCubit(this._repository) : super(const EnrollmentInitial());
 
   TrackType? get currentTrack {
-    final state = this.state;
-    if (state is EnrollmentInitial) return state.selectedTrack;
-    if (state is EnrollmentPaymentProcessing) return state.track;
+    final s = state;
+    if (s is EnrollmentInitial) return s.selectedTrack;
+    if (s is EnrollmentPaymentProcessing) return s.track;
     return null;
   }
 
