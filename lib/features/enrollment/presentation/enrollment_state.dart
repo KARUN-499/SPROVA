@@ -43,11 +43,10 @@ class EnrollmentSuccess extends EnrollmentState {
 
 class EnrollmentError extends EnrollmentState {
   final EnrollmentFailure failure;
+  final String message;
 
-  const EnrollmentError(this.failure);
-
-  String get message => failure.message;
+  const EnrollmentError(this.failure) : message = failure.message;
 
   @override
-  List<Object?> get props => [failure];
+  List<Object?> get props => [failure, message];
 }

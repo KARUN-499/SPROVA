@@ -35,6 +35,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String? _error;
   int _tab = 0;
 
+  bool get _bypassAuth => false;
+  String get _bypassEmail => _sb.auth.currentUser?.email ?? '';
+
   @override
   void initState() {
     super.initState();
