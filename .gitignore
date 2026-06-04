@@ -53,3 +53,6 @@ price_update.txt
 debug_notes.md
 skills-lock.json
 flutter-sdk/
+flutter_sdk/
+flutter_doctor.txt
+flutter_version_output.txt

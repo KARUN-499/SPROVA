@@ -35,9 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String? _error;
   int _tab = 0;
 
-  // Removed unused _start and _end fields
-
-
   @override
   void initState() {
     super.initState();
@@ -125,8 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  String get _email =>
-      _bypassAuth ? _bypassEmail : (_sb.auth.currentUser?.email ?? '');
+  String get _email => _sb.auth.currentUser?.email ?? '';
   String get _track => (_enrollment?['track'] as String?) ?? 'Unknown';
 
   @override
@@ -511,7 +507,6 @@ class _HomePage extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
     padding: const EdgeInsets.all(24),
     children: [
-      // Day banner
       Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -615,7 +610,6 @@ class _HomePage extends StatelessWidget {
       ),
       const SizedBox(height: 14),
 
-      // Quick stats
       Row(
         children: [
           _Q(
@@ -631,7 +625,6 @@ class _HomePage extends StatelessWidget {
       ),
       const SizedBox(height: 24),
 
-      // Today's task
       const _Label("TODAY'S TASK"),
       const SizedBox(height: 10),
       GestureDetector(
@@ -650,7 +643,6 @@ class _HomePage extends StatelessWidget {
       ),
       const SizedBox(height: 24),
 
-      // Next live session
       const _Label('NEXT LIVE SESSION'),
       const SizedBox(height: 10),
       Container(
@@ -719,7 +711,6 @@ class _HomePage extends StatelessWidget {
       ),
       const SizedBox(height: 24),
 
-      // Demo Day
       const _Label('DEMO DAY'),
       const SizedBox(height: 10),
       Container(
@@ -818,7 +809,6 @@ class _HomePage extends StatelessWidget {
       ),
       const SizedBox(height: 16),
 
-      // AI Mentor hint
       Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
@@ -1238,7 +1228,7 @@ class _ProgressPage extends StatelessWidget {
         const SizedBox(height: 6),
         const Text(
           'Your Journey',
-          style: TextStyle(
+          Style: TextStyle(
             color: _txt,
             fontSize: 22,
             fontWeight: FontWeight.w800,

@@ -4,5 +4,11 @@
   "typescript.validate.enable": false,
   "files.exclude": {
     "**/supabase/functions/**/*.ts": false
+  },
+  "chat.tools.terminal.autoApprove": {
+    "/^cmd /c \"cd /d c:\\\\Users\\\\karun\\\\Downloads\\\\sprova && \"\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git\\.exe\"\" remote -v && echo --- && \"\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git\\.exe\"\" status -sb\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   }
 }

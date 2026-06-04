@@ -46,6 +46,8 @@ class EnrollmentError extends EnrollmentState {
 
   const EnrollmentError(this.failure);
 
+  String get message => failure.message;
+
   @override
   List<Object?> get props => [failure];
 }
