@@ -1231,7 +1231,7 @@ class _ProgressPage extends StatelessWidget {
         const SizedBox(height: 6),
         const Text(
           'Your Journey',
-          Style: TextStyle(
+          style: TextStyle(
             color: _txt,
             fontSize: 22,
             fontWeight: FontWeight.w800,
