@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sprova/core/config/app_config.dart';
 import 'package:sprova/features/enrollment/domain/entities/enrollment.dart';

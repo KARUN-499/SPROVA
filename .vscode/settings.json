@@ -9,6 +9,10 @@
     "/^cmd /c \"cd /d c:\\\\Users\\\\karun\\\\Downloads\\\\sprova && \"\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git\\.exe\"\" remote -v && echo --- && \"\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git\\.exe\"\" status -sb\"$/": {
       "approve": true,
       "matchCommandLine": true
+    },
+    "/^\\.\\\\flutter_sdk\\\\bin\\\\flutter\\.bat analyze lib/features/enrollment/presentation/enrollment_state\\.dart lib/features/dashboard/dashboard_screen\\.dart$/": {
+      "approve": true,
+      "matchCommandLine": true
     }
   }
 }
