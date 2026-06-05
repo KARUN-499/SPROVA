@@ -10,7 +10,7 @@ import 'package:sprova/features/auth/login_screen.dart';
 import 'package:sprova/features/dashboard/dashboard_screen.dart';
 import 'package:sprova/features/admin/admin_screen.dart';
 
-const _adminEmail = 'karun.easycodesolutions@gmail.com';
+const _adminEmail = 'karun@gmail.com';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
