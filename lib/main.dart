@@ -46,16 +46,19 @@ class _SprovaAppState extends State<SprovaApp> {
   void initState() {
     super.initState();
     _resolveAndSet();
-    _authSub = _sb.auth.onAuthStateChange.listen((data) {
-      if (!mounted) return;
-      final event = data.event;
-      if (event == AuthChangeEvent.signedIn ||
-          event == AuthChangeEvent.tokenRefreshed) {
-        _resolveAndSet();
-      } else if (event == AuthChangeEvent.signedOut) {
-        setState(() => _home = const EnrollmentScreen());
-      }
-    });
+    
+
+_authSub = _sb.auth.onAuthStateChange.listen((data) 
+  if (!mounted) return;
+  final event = data.event;
+  if (event == AuthChangeEvent.signedIn ||
+      event == AuthChangeEvent.tokenRefreshed) {
+    Future.delayed(const Duration(milliseconds: 500), _resolveAndSet);
+  } else if (event == AuthChangeEvent.signedOut) {
+    setState(() => _home = const EnrollmentScreen());
+  }
+
+});
   }
 
   Future<void> _resolveAndSet() async {
