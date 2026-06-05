@@ -1,4 +1,6 @@
 // ignore_for_file: prefer_const_constructors
+import 'package:sprova/features/dashboard/dashboard_screen.dart';
+import 'package:sprova/features/admin/admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -89,10 +91,29 @@ class _LoginScreenState extends State<LoginScreen>
       // Navigate to track+payment screen directly for fast UX
       // main.dart auth listener also fires as backup
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(builder: (_) => const TrackPaymentScreen()),
-        );
-      }
+  final sb = Supabase.instance.client;
+  final email = sb.auth.currentUser?.email ?? '';
+  if (email == 'karun@gmail.com') {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(builder: (_) => const AdminScreen()),
+    );
+  } else {
+    final enrollment = await sb
+        .from('enrollments')
+        .select('id')
+        .eq('user_email', email)
+        .eq('payment_status', 'completed')
+        .maybeSingle();
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => enrollment != null
+            ? const DashboardScreen()
+            : const TrackPaymentScreen(),
+      ),
+    );
+  }
+}
     } on AuthException catch (e) {
       setState(() {
         _loginError = _friendlyError(e.message);
