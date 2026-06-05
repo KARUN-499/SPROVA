@@ -95,7 +95,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   );
 
   int get _day =>
-      (DateTime.now().difference(DateTime.parse("2026-05-20")).inDays + 1)
+      (DateTime.now().difference(DateTime.parse("2026-06-20")).inDays + 1)
           .clamp(1, 30);
   int get _week => ((_day - 1) ~/ 7) + 1;
   int get _dow => ((_day - 1) % 7) + 1;
