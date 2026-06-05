@@ -46,19 +46,21 @@ class _SprovaAppState extends State<SprovaApp> {
   void initState() {
     super.initState();
     _resolveAndSet();
-    
-
-_authSub = _sb.auth.onAuthStateChange.listen((data) {
-  if (!mounted) return;
-  final event = data.event;
-  if (event == AuthChangeEvent.signedIn ||
-      event == AuthChangeEvent.tokenRefreshed) {
-    Future.delayed(const Duration(milliseconds: 500), _resolveAndSet);
-  } else if (event == AuthChangeEvent.signedOut) {
-    setState(() => _home = const EnrollmentScreen());
-  }
-
-});
+    _authSub = _sb.auth.onAuthStateChange.listen((data) {
+      if (!mounted) return;
+      final event = data.event;
+      if (event == AuthChangeEvent.signedIn ||
+          event == AuthChangeEvent.tokenRefreshed) {
+        final email = data.session?.user.email ?? '';
+        if (email == _adminEmail) {
+          setState(() => _home = const AdminScreen());
+        } else {
+          Future.delayed(const Duration(milliseconds: 800), _resolveAndSet);
+        }
+      } else if (event == AuthChangeEvent.signedOut) {
+        setState(() => _home = const EnrollmentScreen());
+      }
+    });
   }
 
   Future<void> _resolveAndSet() async {
@@ -68,16 +70,12 @@ _authSub = _sb.auth.onAuthStateChange.listen((data) {
 
   Future<Widget> _resolveHome() async {
     final session = _sb.auth.currentSession;
-
-    // Not logged in → show landing page (EnrollmentScreen is the hero)
     if (session == null) return const EnrollmentScreen();
 
     final email = session.user.email ?? '';
 
-    // Admin bypass
     if (email == _adminEmail) return const AdminScreen();
 
-    // Check paid enrollment
     try {
       final enrollment = await _sb
           .from('enrollments')
@@ -88,7 +86,6 @@ _authSub = _sb.auth.onAuthStateChange.listen((data) {
       if (enrollment != null) return const DashboardScreen();
     } catch (_) {}
 
-    // Logged in but not paid → track selection + payment
     return const TrackPaymentScreen();
   }
 
@@ -113,13 +110,17 @@ _authSub = _sb.auth.onAuthStateChange.listen((data) {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/login':
-            return MaterialPageRoute<void>(builder: (_) => const LoginScreen());
+            return MaterialPageRoute<void>(
+              builder: (_) => const LoginScreen(),
+            );
           case '/dashboard':
             return MaterialPageRoute<void>(
               builder: (_) => const DashboardScreen(),
             );
           case '/admin':
-            return MaterialPageRoute<void>(builder: (_) => const AdminScreen());
+            return MaterialPageRoute<void>(
+              builder: (_) => const AdminScreen(),
+            );
           case '/enroll':
             return MaterialPageRoute<void>(
               builder: (_) => const EnrollmentScreen(),
