@@ -12,10 +12,17 @@ fi
 
 export PATH="$PATH:$(pwd)/$FLUTTER_DIR/bin"
 flutter --version
-flutter config --enable-web
-flutter pub get
+set -x
+echo "=== WORKDIR: $(pwd) ==="
+echo "=== LIST ROOT ==="
+ls -la
+echo "=== PUBSPEC (head) ==="
+sed -n '1,300p' pubspec.yaml || true
+echo "=== RUN flutter pub get (verbose) ==="
+flutter pub get --verbose || { echo "flutter pub get failed with exit $?"; exit 1; }
+echo "=== RUN flutter build web ==="
 flutter build web --release \
   --dart-define=SUPABASE_URL=${SUPABASE_URL:-} \
   --dart-define=SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-} \
   --dart-define=RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID:-} 2>&1
- echo "Exit code: $?"
+echo "Exit code: $?"
