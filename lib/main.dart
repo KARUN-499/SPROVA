@@ -48,7 +48,7 @@ class _SprovaAppState extends State<SprovaApp> {
     _resolveAndSet();
     
 
-_authSub = _sb.auth.onAuthStateChange.listen((data) 
+_authSub = _sb.auth.onAuthStateChange.listen((data) {
   if (!mounted) return;
   final event = data.event;
   if (event == AuthChangeEvent.signedIn ||
