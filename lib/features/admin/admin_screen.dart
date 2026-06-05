@@ -466,8 +466,22 @@ class _StudentsViewState extends State<_StudentsView> {
   @override
   Widget build(BuildContext context) {
     if (_loading) return const Center(child: CircularProgressIndicator(color: _amber, strokeWidth: 2));
-    final atRisk = _students.where((s) => (_subCounts[s['user_email']] ?? 0) < 4).toList();
-    final onTrack = _students.where((s) => (_subCounts[s['user_email']] ?? 0) >= 4).toList();
+   final today = DateTime.now();
+    final atRisk = _students.where((s) {
+      final count = _subCounts[s['user_email']] ?? 0;
+      final enrolled = DateTime.tryParse(s['enrolled_at'] as String? ?? '') ?? today;
+      final daysSinceEnroll = today.difference(enrolled).inDays;
+      final expectedMin = (daysSinceEnroll - 1).clamp(0, 30);
+      return count < expectedMin;
+    }).toList();
+    final onTrack = _students.where((s) {
+      final count = _subCounts[s['user_email']] ?? 0;
+      final enrolled = DateTime.tryParse(s['enrolled_at'] as String? ?? '') ?? today;
+      final daysSinceEnroll = today.difference(enrolled).inDays;
+      final expectedMin = (daysSinceEnroll - 1).clamp(0, 30);
+      return count >= expectedMin;
+    }).toList();
+    
     return RefreshIndicator(
       color: _amber, backgroundColor: _card, onRefresh: _load,
       child: ListView(

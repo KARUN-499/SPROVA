@@ -972,13 +972,13 @@ class _ExercisePageState extends State<_ExercisePage> {
       _err = null;
     });
     try {
-      final submission = await widget.sb.from('submissions').insert({
+      await widget.sb.from('submissions').insert({
         'user_email': widget.email,
         'lesson_id': widget.lesson?['id'],
         'day': widget.dow,
         'content': text,
         'submitted_at': DateTime.now().toIso8601String(),
-      }).single();
+      });
 
       if (mounted)
         setState(() {
